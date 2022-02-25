@@ -159,7 +159,7 @@ function App() {
           <Flex>
             <Text fontSize='2xl'>Worldwide New Cases</Text>
             <Flex borderRadius='lg' mb={6} p={3} textAlign='center' bg={bg}>
-              GRAPH
+              GRAPH <LineGraph casesType={casesType} />
             </Flex>
           </Flex>
         </Flex>
@@ -170,7 +170,6 @@ function App() {
         center={mapCenter}
         zoom={mapZoom}
       />
-      {/* <LineGraph casesType={casesType} /> */}
     </>
   );
 }
