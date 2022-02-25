@@ -15,6 +15,9 @@ import {
   Th,
   Td,
   TableCaption,
+  Container,
+  Center,
+  VStack,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import './App.css';
@@ -58,9 +61,12 @@ function App() {
       .then((data) =>
         setCountry({
           name: all,
-          cases: data.cases,
-          recovered: data.recovered,
-          deaths: data.deaths,
+          cases: data.todayCases,
+          recovered: data.todayRecovered,
+          deaths: data.todayDeaths,
+          totalCases: data.cases,
+          totalRecovered: data.recovered,
+          totalDeaths: data.deaths,
         })
       );
   };
@@ -77,9 +83,12 @@ function App() {
       .then((data) => {
         setCountry({
           name: allParam ? all : data.country,
-          cases: data.cases,
-          recovered: data.recovered,
-          deaths: data.deaths,
+          cases: data.todayCases,
+          recovered: data.todayRecovered,
+          deaths: data.todayDeaths,
+          totalCases: data.cases,
+          totalRecovered: data.recovered,
+          totalDeaths: data.deaths,
         });
         setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
         setMapZoom(4);
@@ -87,9 +96,18 @@ function App() {
   };
 
   return (
-    <>
-      <Flex>
-        <Flex>
+    <Flex
+      flexDir={['column', 'column', 'row', 'row']}
+      justifyContent='space-evenly'
+      p={5}
+    >
+      <Flex flexDir='column' flex='0.9'>
+        <Flex
+          flexDir='row'
+          justifyContent='space-between'
+          alignItems='center'
+          mb='20px'
+        >
           <Heading>Covid 19 tracker</Heading>
           <Menu>
             <MenuButton
@@ -104,74 +122,93 @@ function App() {
             >
               {country.name} <ChevronDownIcon />
             </MenuButton>
-            <MenuList overflow='scroll' height='400px'>
-              {countries.map((country) => (
-                <MenuItem
-                  key={country.name}
-                  value={country.name}
-                  onClick={onCountryClick}
-                >
-                  {country.name}
-                </MenuItem>
-              ))}
+            <MenuList>
+              <Flex flexDir='column' overflow='auto' height='300px'>
+                {countries.map((country) => (
+                  <MenuItem
+                    key={country.name}
+                    value={country.name}
+                    onClick={onCountryClick}
+                  >
+                    {country.name}
+                  </MenuItem>
+                ))}
+              </Flex>
             </MenuList>
           </Menu>
-          <ColorModeSwitch />
-
-          <Flex />
-          <Flex>
-            <Button variant='ghost' onClick={(e) => setCasesType('cases')}>
-              {country.cases}
-            </Button>
-            <Button variant='ghost' onClick={(e) => setCasesType('recovered')}>
-              {country.recovered}
-            </Button>
-            <Button variant='ghost' onClick={(e) => setCasesType('deaths')}>
-              {country.deaths}
-            </Button>
-          </Flex>
-
-          {/* <Flex borderRadius='lg' mb={6} p={3} textAlign='center' bg={bg}> */}
-
-          {/* </Flex> */}
         </Flex>
-        <Flex>
-          <Flex>
-            <Table variant='striped' colorScheme='teal'>
+
+        <Flex justifyContent='space-between'>
+          <Button variant='ghost' onClick={(e) => setCasesType('cases')}>
+            <VStack>
+              <Text>Cases</Text>
+              <Text>+{country.cases}</Text>
+              <Text>{country.totalCases}</Text> Total
+            </VStack>
+          </Button>
+          <Button variant='ghost' onClick={(e) => setCasesType('recovered')}>
+            <Text>Recovered</Text>
+            <Text>+{country.recovered}</Text>
+            <Text>{country.totalRecovered}</Text> Total
+          </Button>
+          <Button variant='ghost' onClick={(e) => setCasesType('deaths')}>
+            <Text>Deaths</Text>
+            <Text>+{country.deaths}</Text>
+            <Text>{country.totalDeaths}</Text> Total
+          </Button>
+        </Flex>
+
+        {/* <Flex borderRadius='lg' mb='30' p={3} textAlign='center' bg={bg}> */}
+
+        {/* </Flex> */}
+      </Flex>
+      <Center>
+        <Flex
+          flexDir='column'
+          w='300px'
+          alignItems='center'
+          mt={['30px', '30px', '0px', '0px']}
+        >
+          <Flex overflow='auto' height='480px' mb='6'>
+            <Table variant='striped' colorScheme='teal' size='sm'>
               <TableCaption>Live Cases By Country</TableCaption>
               <Thead>
                 <Tr>
                   <Th>Country</Th>
 
-                  <Th isNumeric>Live Cases</Th>
+                  <Th /* isNumeric */>Live Cases</Th>
                 </Tr>
               </Thead>
-              <Tbody /* overflow='scroll' height='400px' */>
+              <Tbody>
                 {tableData.map((country) => (
                   <Tr key={country.name}>
-                    <Td>{country.name}</Td>
+                    <Td color='#6a5d5d'>{country.name}</Td>
                     <Td>{country.cases}</Td>
                   </Tr>
                 ))}
               </Tbody>
             </Table>
           </Flex>
-          <Flex>
-            <Text fontSize='2xl'>Worldwide New Cases</Text>
-            <Flex borderRadius='lg' mb={6} p={3} textAlign='center' bg={bg}>
-              GRAPH <LineGraph casesType={casesType} />
-            </Flex>
+
+          <Text fontSize='2xl'>Worldwide New Cases</Text>
+          <Flex p={3} bg={bg}>
+            <LineGraph casesType={casesType} />
           </Flex>
         </Flex>
-      </Flex>
-      <Map
-        countries={mapCountries}
-        casesType={casesType}
-        center={mapCenter}
-        zoom={mapZoom}
-      />
-    </>
+      </Center>
+    </Flex>
   );
 }
 
 export default App;
+{
+  /*  <Map
+        countries={mapCountries}
+        casesType={casesType}
+        center={mapCenter}
+        zoom={mapZoom}
+      /> */
+}
+{
+  /* <ColorModeSwitch /> */
+}
