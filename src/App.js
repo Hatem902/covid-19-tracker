@@ -30,8 +30,11 @@ import 'leaflet/dist/leaflet.css';
 import LineGraph from './Components/LineGraph';
 import { prettyPrintStat } from './utils/dataOnMap';
 import InfoButton from './Components/InfoButton';
+import { CasesTypeColors } from './utils/casesTypeColors';
+import numeral from 'numeral';
 
 function App() {
+  const casesTypeColors = CasesTypeColors();
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
@@ -111,9 +114,9 @@ function App() {
           flexDir='row'
           justifyContent='space-between'
           alignItems='center'
-          mb='20px'
+          mb={5}
         >
-          <Heading>Covid 19 tracker</Heading>
+          <Heading color='#1D4044'>Covid 19 tracker</Heading>
           <Menu>
             <MenuButton
               px={4}
@@ -121,19 +124,25 @@ function App() {
               transition='all 0.2s'
               borderRadius='md'
               borderWidth='1px'
+              bg='#FFFFFF'
               _hover={{ bg: 'gray.400' }}
               _expanded={{ bg: 'blue.400' }}
               _focus={{ boxShadow: 'outline' }}
+              color='#1D4044'
+              fontWeight='500'
             >
-              {country.name} <ChevronDownIcon />
+              {country.name}
+              <ChevronDownIcon ml='4px' />
             </MenuButton>
             <MenuList>
-              <Flex flexDir='column' overflow='auto' height='300px'>
+              <Flex flexDir='column' overflow='auto' height='172px'>
                 {countries.map((country) => (
                   <MenuItem
                     key={country.name}
                     value={country.name}
                     onClick={onCountryClick}
+                    color='#1D4044'
+                    fontWeight='400'
                   >
                     {country.name}
                   </MenuItem>
@@ -143,57 +152,35 @@ function App() {
           </Menu>
         </Flex>
 
-        <Flex my={14} justifyContent='space-between'>
+        <Flex my={1} justifyContent='space-between'>
           <InfoButton
             setCasesType={setCasesType}
-            casesType={casesType}
-            color={'red'}
-            todayCases={country.todayCases}
-            cases={country.cases}
+            casesType={'cases'}
+            color={casesTypeColors['cases'].hex}
+            todayData={country.todayCases}
+            data={country.cases}
+            text={'Coronavirus cases'}
+            borderTop={casesType === 'cases'}
           />
-          <Button
-            py={16}
-            variant='ghost'
-            onClick={(e) => setCasesType('cases')}
-            borderRadius='md'
-            borderWidth='1px'
-            boxShadow='md'
-            bg='#FFFFFF'
-            pr={16}
-          >
-            <Box
-              mr='16'
-              bg='red'
-              borderRadius='md'
-              w='8px'
-              height='110px'
-            ></Box>
-            <VStack>
-              <Text fontSize='lg' color='grey' fontWeight='600'>
-                Coronavirus cases
-              </Text>
-              <Text fontSize='4xl' color='#9B2C2C' fontWeight='600'>
-                +{prettyPrintStat(country.todayCases)}
-              </Text>
-              <Text pt='6px' fontSize='sm' color='teal' fontWeight='700'>
-                {prettyPrintStat(country.cases)} Total
-              </Text>
-            </VStack>
-          </Button>
-          <Button variant='ghost' onClick={(e) => setCasesType('recovered')}>
-            <VStack fontWeight='600'>
-              <Text>Recovered</Text>
-              <Text>+{country.todayRecovered}</Text>
-              <Text>{country.recovered}Total</Text>
-            </VStack>
-          </Button>
-          <Button variant='ghost' onClick={(e) => setCasesType('deaths')}>
-            <VStack fontWeight='600'>
-              <Text>Deaths</Text>
-              <Text>+{country.todayDeaths}</Text>
-              <Text>{country.deaths}Total</Text>
-            </VStack>
-          </Button>
+
+          <InfoButton
+            setCasesType={setCasesType}
+            casesType={'recovered'}
+            color={casesTypeColors['recovered'].hex}
+            todayData={country.todayRecovered}
+            data={country.recovered}
+            text={'Recovered'}
+            borderTop={casesType === 'recovered'}
+          />
+          <InfoButton
+            setCasesType={setCasesType}
+            casesType={'deaths'}
+            color={casesTypeColors['deaths'].hex}
+            todayData={country.todayDeaths}
+            data={country.deaths}
+            text={'Deaths'}
+            borderTop={casesType === 'deaths'}
+          />
         </Flex>
         <Map
           countries={mapCountries}
@@ -214,19 +201,28 @@ function App() {
       >
         <Flex overflow='auto' height='480px' mb='1'>
           <Table variant='striped' colorScheme='teal' size='sm'>
-            <TableCaption>Live Cases By Country</TableCaption>
+            <TableCaption color='#1D4044'>Live Cases By Country</TableCaption>
             <Thead>
               <Tr>
-                <Th>Country</Th>
+                <Th fontWeight='800'>Country</Th>
 
-                <Th /* isNumeric */>Live Cases</Th>
+                <Th
+                  /* isNumeric */ fontWeight='800'
+                  color={casesTypeColors['cases'].hex}
+                >
+                  Live - Cases
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
               {tableData.map((country) => (
                 <Tr key={country.name}>
-                  <Td color='#6a5d5d'>{country.name}</Td>
-                  <Td>{country.cases}</Td>
+                  <Td color='#1D4044' fontWeight='500'>
+                    {country.name}
+                  </Td>
+                  <Td color='#1D4044' fontWeight='700'>
+                    {numeral(country.cases).format('0,0')}
+                  </Td>
                 </Tr>
               ))}
             </Tbody>

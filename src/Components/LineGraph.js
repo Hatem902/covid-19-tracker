@@ -89,7 +89,9 @@ function LineGraph({ casesType = 'cases' }) {
     <div>
       {data?.length > 0 && (
         <VStack pr={['26px', '26px', '12px', '12px']} height='200px'>
-          <Text fontSize='2xl'>Worldwide New {casesType}</Text>
+          <Text color='#1D4044' fontSize='2xl'>
+            Worldwide new {casesType}
+          </Text>
           <Line
             data={{
               datasets: [
