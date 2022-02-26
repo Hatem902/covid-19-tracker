@@ -67,7 +67,6 @@ const buildChartData = (data, casesType) => {
 };
 
 function LineGraph({ casesType = 'cases' }) {
-  /* const [bgc, setBgc] = useState('#CC1034'); */
   const [data, setData] = useState({});
 
   useEffect(() => {

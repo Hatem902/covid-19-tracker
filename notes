@@ -1,0 +1,4 @@
+future improvements :
+- less app.js code, more components + cleaning up code
+- using zustand for global states
+- colorSwitch mode ?

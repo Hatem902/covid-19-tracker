@@ -19,7 +19,8 @@ const InfoButton = ({
       borderWidth='1px'
       boxShadow={borderTop ? 'xl' : 'md'}
       bg='#FFFFFF'
-      w='300px'
+      isFullWidth='300px'
+      maxW='300px'
     >
       <Box
         bg={borderTop ? color : 'transparent'}

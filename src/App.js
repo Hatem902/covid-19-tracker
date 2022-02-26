@@ -6,8 +6,6 @@ import {
   MenuList,
   MenuItem,
   Button,
-  useColorModeValue,
-  Text,
   Table,
   Thead,
   Tbody,
@@ -15,36 +13,39 @@ import {
   Th,
   Td,
   TableCaption,
+  Image,
+  Spacer,
+  HStack,
+  Text,
   Container,
-  Center,
-  VStack,
-  Box,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import './App.css';
-import ColorModeSwitch from './Components/ColorSwitchMode';
+
+/* import ColorModeSwitch from './Components/ColorSwitchMode';  whenever I make a second theme*/
 import { useEffect, useState } from 'react';
 import { sortData } from './utils/sort';
 import Map from './Components/Map';
 import 'leaflet/dist/leaflet.css';
 import LineGraph from './Components/LineGraph';
-import { prettyPrintStat } from './utils/dataOnMap';
+
 import InfoButton from './Components/InfoButton';
 import { CasesTypeColors } from './utils/casesTypeColors';
 import numeral from 'numeral';
 
 function App() {
   const casesTypeColors = CasesTypeColors();
+  const [dataSorting, setDataSorting] = useState('decreasing');
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
-  const bg = useColorModeValue('whiteAlpha.500', 'whiteAlpha.200');
+
   const all = 'Worldwide';
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState([]);
   const [casesType, setCasesType] = useState('cases');
   const tableData = sortData(
-    countries.filter((country) => country.name != all)
+    countries.filter((country) => country.name != all),
+    dataSorting
   );
   const getCountries = async () => {
     await fetch('https://disease.sh/v3/covid-19/countries')
@@ -103,20 +104,23 @@ function App() {
 
   return (
     <Flex
+      mt='20px'
       flexDir={['column', 'column', 'row', 'row']}
       justifyContent='space-evenly'
       p={5}
       bgColor='#E6FFFA'
-      height='100vh'
+      height={['168vh', '168vh', '100vh', '100vh']}
     >
       <Flex flexDir='column' flex='0.9'>
-        <Flex
-          flexDir='row'
-          justifyContent='space-between'
-          alignItems='center'
-          mb={5}
-        >
-          <Heading color='#1D4044'>Covid 19 tracker</Heading>
+        <Flex maxH='58px' flexDir='row' alignItems='center' mb={10}>
+          <Image
+            src='https://img.icons8.com/clouds/100/000000/coronavirus.png'
+            alt='Covid-19 icon'
+          />
+          <Heading ml='32px' color='#1D4044'>
+            Covid 19 tracker
+          </Heading>
+          <Spacer />
           <Menu>
             <MenuButton
               px={4}
@@ -135,7 +139,7 @@ function App() {
               <ChevronDownIcon ml='4px' />
             </MenuButton>
             <MenuList>
-              <Flex flexDir='column' overflow='auto' height='172px'>
+              <Flex flexDir='column' overflow='auto' height='180px'>
                 {countries.map((country) => (
                   <MenuItem
                     key={country.name}
@@ -152,7 +156,7 @@ function App() {
           </Menu>
         </Flex>
 
-        <Flex my={1} justifyContent='space-between'>
+        <Flex my={2} justifyContent='space-between'>
           <InfoButton
             setCasesType={setCasesType}
             casesType={'cases'}
@@ -188,18 +192,15 @@ function App() {
           center={mapCenter}
           zoom={mapZoom}
         />
-        {/* <Flex borderRadius='lg' mb='30' p={3} textAlign='center' bg={bg}> */}
-
-        {/* </Flex> */}
       </Flex>
-      {/* <Center> */}
+
       <Flex
         flexDir='column'
         w={['null', 'null', '300px', '300px']}
         alignItems='center'
         mt={['30px', '30px', '0px', '0px']}
       >
-        <Flex overflow='auto' height='480px' mb='1'>
+        <Flex overflow='auto' height='522px' mb='1'>
           <Table variant='striped' colorScheme='teal' size='sm'>
             <TableCaption color='#1D4044'>Live Cases By Country</TableCaption>
             <Thead>
@@ -210,7 +211,23 @@ function App() {
                   /* isNumeric */ fontWeight='800'
                   color={casesTypeColors['cases'].hex}
                 >
-                  Live - Cases
+                  <HStack>
+                    <Text> Live Cases</Text>
+                    <Button
+                      colorScheme='purple'
+                      variant='link'
+                      fontSize='3xl'
+                      onClick={() =>
+                        setDataSorting(
+                          dataSorting === 'increasing'
+                            ? 'decreasing'
+                            : 'increasing'
+                        )
+                      }
+                    >
+                      {dataSorting === 'increasing' ? '↑' : '↓'}
+                    </Button>
+                  </HStack>
                 </Th>
               </Tr>
             </Thead>
@@ -229,18 +246,12 @@ function App() {
           </Table>
         </Flex>
 
-        {/* <Flex bg={bg}> */}
         <LineGraph casesType={casesType} />
-        {/* </Flex> */}
       </Flex>
-      {/* </Center> */}
+
+      {/* <ColorModeSwitch /> */}
     </Flex>
   );
 }
 
 export default App;
-{
-}
-{
-  /* <ColorModeSwitch /> */
-}
