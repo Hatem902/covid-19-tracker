@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import numeral from 'numeral';
+import { VStack, Text } from '@chakra-ui/react';
+import { CasesTypeColors } from '../utils/casesTypeColors';
 
+const casesTypeColors = CasesTypeColors();
 const options = {
   legend: {
     display: false,
@@ -50,7 +53,7 @@ const options = {
 const buildChartData = (data, casesType) => {
   let chartData = [];
   let lastDataPoint;
-  for (let date in data.cases) {
+  for (let date in data[casesType]) {
     if (lastDataPoint) {
       let newDataPoint = {
         x: date,
@@ -63,7 +66,8 @@ const buildChartData = (data, casesType) => {
   return chartData;
 };
 
-function LineGraph({ casesType }) {
+function LineGraph({ casesType = 'cases' }) {
+  /* const [bgc, setBgc] = useState('#CC1034'); */
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -75,8 +79,6 @@ function LineGraph({ casesType }) {
         .then((data) => {
           let chartData = buildChartData(data, casesType);
           setData(chartData);
-          console.log(chartData);
-          // buildChart(chartData);
         });
     };
 
@@ -86,18 +88,22 @@ function LineGraph({ casesType }) {
   return (
     <div>
       {data?.length > 0 && (
-        <Line
-          data={{
-            datasets: [
-              {
-                backgroundColor: 'rgba(204, 16, 52, 0.5)',
-                borderColor: '#CC1034',
-                data: data,
-              },
-            ],
-          }}
-          options={options}
-        />
+        <VStack pr={['26px', '26px', '12px', '12px']} height='200px'>
+          <Text fontSize='2xl'>Worldwide New {casesType}</Text>
+          <Line
+            data={{
+              datasets: [
+                {
+                  backgroundColor: casesTypeColors[casesType].half_op,
+
+                  borderColor: casesTypeColors[casesType].hex,
+                  data: data,
+                },
+              ],
+            }}
+            options={options}
+          />
+        </VStack>
       )}
     </div>
   );

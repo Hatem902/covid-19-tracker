@@ -61,12 +61,12 @@ function App() {
       .then((data) =>
         setCountry({
           name: all,
-          cases: data.todayCases,
-          recovered: data.todayRecovered,
-          deaths: data.todayDeaths,
-          totalCases: data.cases,
-          totalRecovered: data.recovered,
-          totalDeaths: data.deaths,
+          todayCases: data.todayCases,
+          todayRecovered: data.todayRecovered,
+          todayDeaths: data.todayDeaths,
+          cases: data.cases,
+          recovered: data.recovered,
+          deaths: data.deaths,
         })
       );
   };
@@ -83,12 +83,12 @@ function App() {
       .then((data) => {
         setCountry({
           name: allParam ? all : data.country,
-          cases: data.todayCases,
-          recovered: data.todayRecovered,
-          deaths: data.todayDeaths,
-          totalCases: data.cases,
-          totalRecovered: data.recovered,
-          totalDeaths: data.deaths,
+          todayCases: data.todayCases,
+          todayRecovered: data.todayRecovered,
+          todayDeaths: data.todayDeaths,
+          cases: data.cases,
+          recovered: data.recovered,
+          deaths: data.deaths,
         });
         setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
         setMapZoom(4);
@@ -138,76 +138,78 @@ function App() {
           </Menu>
         </Flex>
 
-        <Flex justifyContent='space-between'>
+        <Flex my={6} justifyContent='space-between'>
           <Button variant='ghost' onClick={(e) => setCasesType('cases')}>
             <VStack>
               <Text>Cases</Text>
-              <Text>+{country.cases}</Text>
-              <Text>{country.totalCases}</Text> Total
+              <Text>+{country.todayCases}</Text>
+              <Text>{country.cases} Total</Text>
             </VStack>
           </Button>
           <Button variant='ghost' onClick={(e) => setCasesType('recovered')}>
-            <Text>Recovered</Text>
-            <Text>+{country.recovered}</Text>
-            <Text>{country.totalRecovered}</Text> Total
+            <VStack>
+              <Text>Recovered</Text>
+              <Text>+{country.todayRecovered}</Text>
+              <Text>{country.recovered}Total</Text>
+            </VStack>
           </Button>
           <Button variant='ghost' onClick={(e) => setCasesType('deaths')}>
-            <Text>Deaths</Text>
-            <Text>+{country.deaths}</Text>
-            <Text>{country.totalDeaths}</Text> Total
+            <VStack>
+              <Text>Deaths</Text>
+              <Text>+{country.todayDeaths}</Text>
+              <Text>{country.deaths}Total</Text>
+            </VStack>
           </Button>
         </Flex>
-
+        <Map
+          countries={mapCountries}
+          casesType={casesType}
+          center={mapCenter}
+          zoom={mapZoom}
+        />
         {/* <Flex borderRadius='lg' mb='30' p={3} textAlign='center' bg={bg}> */}
 
         {/* </Flex> */}
       </Flex>
-      <Center>
-        <Flex
-          flexDir='column'
-          w='300px'
-          alignItems='center'
-          mt={['30px', '30px', '0px', '0px']}
-        >
-          <Flex overflow='auto' height='480px' mb='6'>
-            <Table variant='striped' colorScheme='teal' size='sm'>
-              <TableCaption>Live Cases By Country</TableCaption>
-              <Thead>
-                <Tr>
-                  <Th>Country</Th>
+      {/* <Center> */}
+      <Flex
+        flexDir='column'
+        w={['null', 'null', '300px', '300px']}
+        alignItems='center'
+        mt={['30px', '30px', '0px', '0px']}
+      >
+        <Flex overflow='auto' height='480px' mb='1'>
+          <Table variant='striped' colorScheme='teal' size='sm'>
+            <TableCaption>Live Cases By Country</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>Country</Th>
 
-                  <Th /* isNumeric */>Live Cases</Th>
+                <Th /* isNumeric */>Live Cases</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {tableData.map((country) => (
+                <Tr key={country.name}>
+                  <Td color='#6a5d5d'>{country.name}</Td>
+                  <Td>{country.cases}</Td>
                 </Tr>
-              </Thead>
-              <Tbody>
-                {tableData.map((country) => (
-                  <Tr key={country.name}>
-                    <Td color='#6a5d5d'>{country.name}</Td>
-                    <Td>{country.cases}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </Flex>
-
-          <Text fontSize='2xl'>Worldwide New Cases</Text>
-          <Flex p={3} bg={bg}>
-            <LineGraph casesType={casesType} />
-          </Flex>
+              ))}
+            </Tbody>
+          </Table>
         </Flex>
-      </Center>
+
+        {/* <Flex bg={bg}> */}
+        <LineGraph casesType={casesType} />
+        {/* </Flex> */}
+      </Flex>
+      {/* </Center> */}
     </Flex>
   );
 }
 
 export default App;
 {
-  /*  <Map
-        countries={mapCountries}
-        casesType={casesType}
-        center={mapCenter}
-        zoom={mapZoom}
-      /> */
 }
 {
   /* <ColorModeSwitch /> */
