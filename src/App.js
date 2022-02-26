@@ -18,6 +18,7 @@ import {
   Container,
   Center,
   VStack,
+  Box,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import './App.css';
@@ -27,6 +28,8 @@ import { sortData } from './utils/sort';
 import Map from './Components/Map';
 import 'leaflet/dist/leaflet.css';
 import LineGraph from './Components/LineGraph';
+import { prettyPrintStat } from './utils/dataOnMap';
+import InfoButton from './Components/InfoButton';
 
 function App() {
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
@@ -100,6 +103,8 @@ function App() {
       flexDir={['column', 'column', 'row', 'row']}
       justifyContent='space-evenly'
       p={5}
+      bgColor='#E6FFFA'
+      height='100vh'
     >
       <Flex flexDir='column' flex='0.9'>
         <Flex
@@ -138,23 +143,52 @@ function App() {
           </Menu>
         </Flex>
 
-        <Flex my={6} justifyContent='space-between'>
-          <Button variant='ghost' onClick={(e) => setCasesType('cases')}>
+        <Flex my={14} justifyContent='space-between'>
+          <InfoButton
+            setCasesType={setCasesType}
+            casesType={casesType}
+            color={'red'}
+            todayCases={country.todayCases}
+            cases={country.cases}
+          />
+          <Button
+            py={16}
+            variant='ghost'
+            onClick={(e) => setCasesType('cases')}
+            borderRadius='md'
+            borderWidth='1px'
+            boxShadow='md'
+            bg='#FFFFFF'
+            pr={16}
+          >
+            <Box
+              mr='16'
+              bg='red'
+              borderRadius='md'
+              w='8px'
+              height='110px'
+            ></Box>
             <VStack>
-              <Text>Cases</Text>
-              <Text>+{country.todayCases}</Text>
-              <Text>{country.cases} Total</Text>
+              <Text fontSize='lg' color='grey' fontWeight='600'>
+                Coronavirus cases
+              </Text>
+              <Text fontSize='4xl' color='#9B2C2C' fontWeight='600'>
+                +{prettyPrintStat(country.todayCases)}
+              </Text>
+              <Text pt='6px' fontSize='sm' color='teal' fontWeight='700'>
+                {prettyPrintStat(country.cases)} Total
+              </Text>
             </VStack>
           </Button>
           <Button variant='ghost' onClick={(e) => setCasesType('recovered')}>
-            <VStack>
+            <VStack fontWeight='600'>
               <Text>Recovered</Text>
               <Text>+{country.todayRecovered}</Text>
               <Text>{country.recovered}Total</Text>
             </VStack>
           </Button>
           <Button variant='ghost' onClick={(e) => setCasesType('deaths')}>
-            <VStack>
+            <VStack fontWeight='600'>
               <Text>Deaths</Text>
               <Text>+{country.todayDeaths}</Text>
               <Text>{country.deaths}Total</Text>
