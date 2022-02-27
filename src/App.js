@@ -17,7 +17,6 @@ import {
   Spacer,
   HStack,
   Text,
-  Container,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
@@ -44,7 +43,7 @@ function App() {
   const [country, setCountry] = useState([]);
   const [casesType, setCasesType] = useState('cases');
   const tableData = sortData(
-    countries.filter((country) => country.name != all),
+    countries.filter((country) => country.name !== all),
     dataSorting
   );
   const getCountries = async () => {
@@ -105,13 +104,18 @@ function App() {
   return (
     <Flex
       mt='20px'
+      justifyContent={[
+        'flex-start',
+        'flex-start',
+        'space-evenly',
+        'space-evenly',
+      ]}
       flexDir={['column', 'column', 'row', 'row']}
-      justifyContent='space-evenly'
       p={5}
       bgColor='#E6FFFA'
-      height={['168vh', '168vh', '100vh', '100vh']}
+      height={['260vh', '260vh', '100vh', '100vh']}
     >
-      <Flex flexDir='column' flex='0.9'>
+      <Flex flexDir='column' flex={['null', 'null', '0.9', '0.9']}>
         <Flex maxH='58px' flexDir='row' alignItems='center' mb={10}>
           <Image
             src='https://img.icons8.com/clouds/100/000000/coronavirus.png'
@@ -200,7 +204,12 @@ function App() {
         alignItems='center'
         mt={['30px', '30px', '0px', '0px']}
       >
-        <Flex overflow='auto' height='522px' mb='1'>
+        <Flex
+          overflow='auto'
+          height='522px'
+          mb='1'
+          mt={['20px', '20px', '0', '0']}
+        >
           <Table variant='striped' colorScheme='teal' size='sm'>
             <TableCaption color='#1D4044'>Live Cases By Country</TableCaption>
             <Thead>
