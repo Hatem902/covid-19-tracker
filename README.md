@@ -12,12 +12,8 @@
  
   
 The different techniques Implemented throughout this build:
-
 • Fetching Data from the Covid-19 API as well as filtering it and exposing it through graphs, maps, tables, and info-boxes.
-
 • Utilizing React Leaflet to show and configure the Map along with its tooltips and indicators.
-
 • Utilizing React Chart.Js to show and configure the Worldwide new cases/deaths/recovery Graphs.
-
 • Utilizing Chakra UI to build a clean and Responsive React application.
 
