@@ -1,6 +1,6 @@
 This is a Covid-19 Real-Time Tracker web-app built with React.js & Chakra UI using a free Covid-19 API.
 
-• Preview Demo-video: https://youtu.be/husGEgLmAmU
+• Comprehensive Demo-video: https://youtu.be/husGEgLmAmU
 
 • Live demo link: https://covid-19-tracker-8732b.web.app/
 
