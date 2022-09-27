@@ -1,5 +1,19 @@
 This is a Covid-19 Real-Time Tracker web-app built with React.js & Chakra UI using a free Covid-19 API.
 
+## The different techniques Implemented throughout this build:
+
+• Fetching Data from the Covid-19 API as well as filtering it and exposing it through graphs, maps, tables, and info-boxes.
+
+• Utilizing React Leaflet to show and configure the Map along with its tooltips and indicators.
+
+• Utilizing React Chart.Js to show and configure the Worldwide new cases/deaths/recovery Graphs.
+
+• Utilizing Chakra UI to build a clean and Responsive React application.
+
+---------------------------------------
+
+## Demo
+
 • Comprehensive Demo-video: https://youtu.be/husGEgLmAmU
 
 • Live demo link: https://covid-19-tracker-8732b.web.app/
@@ -13,13 +27,4 @@ This is a Covid-19 Real-Time Tracker web-app built with React.js & Chakra UI usi
  
  
   
-The different techniques Implemented throughout this build:
-
-• Fetching Data from the Covid-19 API as well as filtering it and exposing it through graphs, maps, tables, and info-boxes.
-
-• Utilizing React Leaflet to show and configure the Map along with its tooltips and indicators.
-
-• Utilizing React Chart.Js to show and configure the Worldwide new cases/deaths/recovery Graphs.
-
-• Utilizing Chakra UI to build a clean and Responsive React application.
 
